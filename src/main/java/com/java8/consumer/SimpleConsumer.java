@@ -8,11 +8,11 @@ import java.util.function.Consumer;
 
 /**
  * Created by jyotipoddar on 08-01-2017.
- *
- * */
+ */
 
 
-class PConsumer implements  Consumer<Person> {
+class PConsumer implements Consumer<Person> {
+
 
     @Override
     public void accept(Person person) {
@@ -22,7 +22,10 @@ class PConsumer implements  Consumer<Person> {
     @Override
     public Consumer<Person> andThen(Consumer<? super Person> after) {
         Objects.requireNonNull(after);
-        return (Person t) -> { accept(t); after.accept(t); };
+        return (Person t) -> {
+            accept(t);
+            after.accept(t);
+        };
     }
 }
 
@@ -31,22 +34,20 @@ public class SimpleConsumer {
     public static void main(String[] args) {
         // creating a consumer that take string a an argument
 
-        Consumer<String> stringConsumer = s -> System.out.println(s);
+        Consumer<String> stringConsumer = System.out::println; //s -> System.out.println(s);
 
         // using the consumer for printing the message
         stringConsumer.accept("Hello, String Consumer ;) ");
 
         // Custom consumer for printing the details of Person class
-        Consumer<Person> personConsumer = p -> {
-            System.out.format("First Name:%s,Last Name %s", p.getfName(), p.getlName());
-        };
+        Consumer<Person> personConsumer = Person::toString;
 
         Person.getPersonList().forEach(personConsumer);
         System.out.println("");
 
 
-        BiConsumer<String, String> stringConcat= (t,v) -> System.out.println(t.toUpperCase()+" "+v.toUpperCase());
-        stringConcat.accept("First Input","Second Input");
+        BiConsumer<String, String> stringConcat = (t, v) -> System.out.println(t.toUpperCase() + " " + v.toUpperCase());
+        stringConcat.accept("First Input", "Second Input");
 
         Person.getPersonList().forEach(new PConsumer());
     }
