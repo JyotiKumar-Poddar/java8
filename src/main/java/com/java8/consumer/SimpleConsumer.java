@@ -45,7 +45,6 @@ public class SimpleConsumer {
         Person.getPersonList().forEach(personConsumer);
         System.out.println("");
 
-
         BiConsumer<String, String> stringConcat = (t, v) -> System.out.println(t.toUpperCase() + " " + v.toUpperCase());
         stringConcat.accept("First Input", "Second Input");
 
